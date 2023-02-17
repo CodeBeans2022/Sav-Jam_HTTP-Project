@@ -13,15 +13,28 @@ let app = express();
 
 let route = express.Router();
 
+let cors = require('cors');
+
+let {errorHandling} = require('./middleware/ErrorHandling');
+
+let {message} = require('./middleware/message');
+
 app.use(
     route,
+    cors({
+        origin: [
+            'http://127.0.0.1:8080',
+            'http://localhost:8080'
+        ],
+        credentials: true
+    }),
     express.json,
     bodyParser.urlencoded({ extended: false })
 )
 
 // Get() Method ~> Retrieves Data
 
-route.get('/', (req, res) => {
+route.get('^/$|/Sav-Jam_Project', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, './view/index.html'));
 });
 
